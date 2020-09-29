@@ -12,6 +12,7 @@ const routing = (
       <Route exact path="/" component={App} />
       <Route path="/timelineList" component={TimelineList} />
       <Route path="/timelineCard" component={TimelineCard} />
+      <Route path="/timeline" component={Timelines} />
     </div>
   </Router>
 )
