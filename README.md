@@ -1,3 +1,3 @@
-#History Commons:
+# History Commons:
 
-__ Stageing branch is called `edits`__
+__Stageing branch is called `edits`__
