@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarShift: {
+  appBarShiftLeft: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {
@@ -32,14 +32,14 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-    drawer: {
+    leftDrawer: {
     width: drawerWidth,
     flexShrink: 0,
   },
-  drawerPaper: {
+  leftDrawerPaper: {
     width: drawerWidth,
   },
-  drawerHeader: {
+  leftDrawerHeader: {
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
@@ -47,6 +47,31 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   },
+  // 
+  appBarShiftLRight: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+    rightDrawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  rightDrawerPaper: {
+    width: drawerWidth,
+  },
+  rightDrawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  // 
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -68,16 +93,25 @@ const useStyles = makeStyles((theme) => ({
 export default function ProminentAppBar() {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [openLeft, setOpenLeft] = useState(false);
+  const [openRight, setOpenRight] = useState(false);
   const [categories, setCategories] = useState({ category: ['General Topics', 'Corporate Intrests']})
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleLeftDrawerOpen = () => {
+    setOpenLeft(true);
     console.log("handleDrawerOpen")
   };
 
-    const handleDrawerClose = () => {
-    setOpen(false);
+    const handleLeftDrawerClose = () => {
+    setOpenLeft(false);
+  };
+    const handleRightDrawerOpen = () => {
+    setOpenRight(true);
+    console.log("handleDrawerOpen")
+  };
+
+    const handleRightDrawerClose = () => {
+    setOpenRight(false);
   };
   useEffect(() => {   console.log('CATS', categories.category)  });
   return (
@@ -85,15 +119,16 @@ export default function ProminentAppBar() {
     <CssBaseline />
       <AppBar position="fixed"         
       className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShiftLeft]: openLeft,
+          [classes.appBarShiftRight]: openRight,
         })}>
         <Toolbar className={classes.toolbar}>
            <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={handleLeftDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={clsx(classes.menuButton, openLeft && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
@@ -103,22 +138,22 @@ export default function ProminentAppBar() {
           <IconButton aria-label="search" color="inherit">
             <SearchIcon />
           </IconButton>
-          <IconButton aria-label="display more actions" edge="end" color="inherit">
+          <IconButton aria-label="display more actions" edge="end" color="inherit" onClick={handleRightDrawerOpen} className={clsx(classes.menuButton, openRight && classes.hide)}>
             <MoreIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
      <Drawer
-        className={classes.drawer}
+        className={classes.leftDrawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={openLeft}
         classes={{
-          paper: classes.drawerPaper,
+          paper: classes.leftDrawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
+        <div className={classes.leftDrawerHeader}>
+          <IconButton onClick={handleLeftDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
@@ -138,6 +173,28 @@ export default function ProminentAppBar() {
             </ListItem>
           ))}
         </List>
+      </Drawer>
+    {/*Right Drawer*/}
+         <Drawer
+        className={classes.rightDrawer}
+        variant="persistent"
+        anchor="right"
+        open={openRight}
+        classes={{
+          paper: classes.rightDrawerPaper,
+        }}
+      >
+        <div className={classes.rightDrawerHeader}>
+          <IconButton onClick={handleRightDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </div>
+        <Divider />
+
+          <Typography> User profile stuff </Typography>
+
+        <Divider />
+
       </Drawer>
     </div>
 
