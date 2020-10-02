@@ -21,5 +21,4 @@ _the stage branch for this repo is called `edits`_
 ![TimelineContext.png](design_files/TimelineContext.png "this needs more explanation")
 
 ### Forms:
-
-`still need design files`
+![AddEvent.png](design_files/AddEvent.png "Add Event to timeline Form")
