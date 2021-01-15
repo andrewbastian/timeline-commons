@@ -11,6 +11,7 @@ import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import Typography from '@material-ui/core/Typography';
 import channel from '../sample_data/timeline.json'
 import { makeStyles } from '@material-ui/core/styles';
+
 const useStyles = makeStyles((theme)=> ({
   leftDate: {
 	display:'flex', 

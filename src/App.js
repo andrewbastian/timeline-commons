@@ -7,6 +7,7 @@ import {Typography} from '@material-ui/core'
 import {Container} from '@material-ui/core'
 import TopNav from './Components/TopNav'
 import Home from './Components/Home'
+import LandingPage from './Components/LandingPage'
 
 const theme = createMuiTheme({
   typography: {
@@ -52,7 +53,7 @@ function App() {
     <div className="App">
  
     <Home />
-
+    <LandingPage/>
     </div>
     </ThemeProvider>
   );
