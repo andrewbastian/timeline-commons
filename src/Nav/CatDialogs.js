@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+
+
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import {Button, Dialog,
+DialogActions,
+DialogContent,
+DialogTitle,
+InputLabel,
+Input,
+MenuItem,
+FormControl,
+Select,} from '@material-ui/core';
+
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -39,9 +42,9 @@ export default function CatDialogs(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    useEffect(() => {
-        console.log('props', props);
-    });
+    // useEffect(() => {
+    //     console.log('props', props);
+    // });
     return (
         <div>
             <Button onClick={handleClickOpen}>{props.category}</Button>
@@ -84,9 +87,11 @@ export default function CatDialogs(props) {
                     <Button onClick={handleClose} color='primary'>
                         Cancel
                     </Button>
+                    <RouterLink to='/timeline'>
                     <Button onClick={handleClose} color='primary'>
                         View Timeline
                     </Button>
+                    </RouterLink>
                 </DialogActions>
             </Dialog>
         </div>

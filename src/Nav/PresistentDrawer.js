@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft({ open, setOpen }) {
     const classes = useStyles();
     const theme = useTheme();
-    const [user, setUser] = useState('BlKro');
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };

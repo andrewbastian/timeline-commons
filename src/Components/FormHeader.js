@@ -1,25 +1,8 @@
 import React from 'react';
-
-import {
-    Box,
-    CardActions,
-    CardActionArea,
-    Button,
-    CardContent,
-    CardMedia,
-    Typography,
-    Fab,
-    Link,
-    Chip,
-} from '@material-ui/core/';
-
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Typography, Link } from '@material-ui/core/';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-import EventFrom from './EventForm/EventForm';
-
 const useStyles = makeStyles((theme) => ({
     root: {
         maxWidth: '95%',
@@ -33,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
     textBox: {
         height: 120,
         width: '100%',
-        backgroundColor: '#909090',
+        backgroundColor: '#707070',
         padding: theme.spacing(2),
     },
     rightContent: {
         height: 120,
         width: '100%',
-        backgroundColor: '#909090',
+        backgroundColor: '#707070',
         padding: theme.spacing(2),
         display: 'flex',
         alignItems: 'flex-end',
@@ -55,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const TimelineHeader = (props) => {
+const Form = (props) => {
     // const data = props.data
     // const {title, description, creator, date} = data
     const classes = useStyles();
@@ -67,22 +50,12 @@ const TimelineHeader = (props) => {
                 <Typography variant='subtitle2' display='inline'>
                     Project:
                 </Typography>
-                <Link>
+                <Link component={RouterLink} to='/event-form'>
                     <Typography variant='subtitle2' display='inline'>
                         US Environmental Issues
                     </Typography>
                 </Link>
                 <br />
-                <Link href='/event-form'>
-                    <Fab variant='extended' size='small' className={classes.fab}>
-                        <AddIcon className={classes.extendedIcon} />
-                        Add Event
-                    </Fab>
-                </Link>
-                <Fab variant='extended' size='small' className={classes.fab}>
-                    <EditIcon className={classes.extendedIcon} />
-                    References
-                </Fab>
             </Box>
 
             <Box className={classes.rightContent}>
@@ -95,4 +68,4 @@ const TimelineHeader = (props) => {
     );
 };
 
-export default TimelineHeader;
+export default Form;

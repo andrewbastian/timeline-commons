@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import clsx from 'clsx';
 
 // MaterialUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,6 +13,7 @@ import {
     FormControl,
     InputLabel,
     Select,
+    Container,
 } from '@material-ui/core';
 
 // Components
@@ -30,18 +33,31 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
+    hide: {
+        display: 'none',
+    },
+    show: {
+        display: 'block',
+    },
 }));
 
 const EventFormEntities = () => {
     const classes = useStyles();
-    const [state, setState] = React.useState({
+
+    const [entity, setEntityObj] = useState({
         checkedNames: true,
         checkedContent: false,
-        entryType: '',
+        entityType: '',
     });
 
-    const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+    const [search, setSearch] = useState(false);
+
+    const handleCheckChange = (event) => {
+        setEntityObj({ ...entity, [event.target.name]: event.target.checked });
+    };
+
+    const handleSearch = () => {
+        setSearch(true);
     };
 
     return (
@@ -52,9 +68,9 @@ const EventFormEntities = () => {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={state.checkedA}
-                                onChange={handleChange}
-                                name='checkedB'
+                                checked={entity.checkedNames}
+                                onChange={handleCheckChange}
+                                name='checkedNames'
                                 color='primary'
                             />
                         }
@@ -63,9 +79,9 @@ const EventFormEntities = () => {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={state.checkedB}
-                                onChange={handleChange}
-                                name='checkedB'
+                                checked={entity.checkedContent}
+                                onChange={handleCheckChange}
+                                name='checkedContent'
                                 color='primary'
                             />
                         }
@@ -73,25 +89,26 @@ const EventFormEntities = () => {
                     />
                 </FormGroup>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor='entry-type-native-simple'>Entry Type</InputLabel>
+                    <InputLabel htmlFor='entity-type-native-simple'>Entry Type</InputLabel>
                     <Select
                         native
-                        value={state.entryType}
-                        onChange={handleChange}
+                        value={entity.entityType}
+                        onChange={(event) => setEntityObj({ ...entity, entityType: event.target.value })}
                         inputProps={{
-                            name: 'entry-type',
-                            id: 'entry-type-native-simple',
+                            name: 'entity-type',
+                            id: 'entity-type-native-simple',
                         }}
                     >
                         <option aria-label='None' value='' />
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
+                        <option value={10}>Person</option>
+                        <option value={20}>Event</option>
                     </Select>
                 </FormControl>
-                <Button>Perform Search</Button>
+                <Button onClick={handleSearch}>Perform Search</Button>
             </FormGroup>
-            <EntityResults/>
+            <Container className={clsx(classes.hide, search && classes.show)}>
+                <EntityResults />
+            </Container>
         </>
     );
 };

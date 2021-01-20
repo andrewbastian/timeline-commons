@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import { List, ListItem } from '@material-ui/core';
-const TimelinesIndex = () => {
+import React, { useState, useEffect } from 'react';
+
+//MATERIAL UI
+import { makeStyles } from '@material-ui/core/styles';
+import { List, ListItem, ListItemText, Container, Paper, Box, Typography } from '@material-ui/core';
+
+const TimelinesIndex = (props) => {
     const [projects, setProjects] = useState([
         { projectName: 'US Solar Industry', managedBy: ['matt', 'Derek', 'KJF', 'mtuck'] },
         { projectName: 'Global Financial and Economic Crisis 2007-Present', managedBy: ['matt', 'KJF', 'mtuck'] },
@@ -43,13 +47,47 @@ const TimelinesIndex = () => {
         { projectName: 'Bush administration`s treatment of US troops', managedBy: ['Derek'] },
     ]);
 
+    const useStyles = makeStyles((theme) => ({
+        paper: {
+            paddingTop: 0,
+        },
+        headers: {
+            // color: theme.palette.secondary.dark,
+            backgroundColor: '#AFAFAF',
+            height: theme.spacing(6),
+            display: 'flex',
+            alignItems: 'center',
+        },
+        headersTextBox: {
+            backgroundColor: '#909090',
+            width: '100%',
+        },
+        typography: {
+            marginLeft: theme.spacing(1),
+        },
+    }));
+
+    const classes = useStyles();
     return (
         <React.Fragment>
-            <List>
-                {projects.map((project) => (
-                    <ListItem component='h1' project={project.projectName}></ListItem>
-                ))}
-            </List>
+
+                <Paper variant='outlined' elevation={3} className={classes.paper}>
+                    <Box className={classes.headers}>
+                        <Box className={classes.headersTextBox}>
+                            <Typography variant='h5' className={classes.typography}>
+                                Projects:
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <List>
+                        {projects.map((project) => (
+                            <ListItem button component='a' href='/Timeline'>
+                                <ListItemText primary={project.projectName} />
+                                <ListItemText secondary={`Managed By: ${project.managedBy}`} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Paper>
         </React.Fragment>
     );
 };

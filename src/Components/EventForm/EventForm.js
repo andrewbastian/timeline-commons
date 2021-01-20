@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 // MaterialUI
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button, Container, Grid, Checkbox, FormControlLabel } from '@material-ui/core';
 
 // Components
-import Home from '../Home';
 import FormTabs from './FormTabs';
 import FormHeader from './FormHeader';
 
@@ -43,17 +42,32 @@ const useStyles = makeStyles((theme) => ({
 const EventForm = () => {
     const classes = useStyles();
 
-    const [state, setState] = React.useState({
+    const [publicDraft, setPublicDraft] = useState({
         checkedPublicDraft: true,
     });
 
-    const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+    const [draft, setDraft] = useState({
+        title: '',
+        link: '',
+        displayDate: '',
+        comments: '',
+        actualStart: new Date(),
+        actualEnd: new Date(),
+    });
+    const [title, setTitle] = useState('');
+
+    const handlePublicChange = (event) => {
+        setPublicDraft({ ...publicDraft, [event.target.name]: event.target.checked });
     };
+
+    const handleDraftChange = (event) => {
+        setDraft({ ...draft, [event.target.name]: event.target.value });
+    };
+    useEffect(() => console.log('DRAFT', draft));
+    // useEffect(() => console.log('TITLE', title));
 
     return (
         <>
-            <Home />
             <FormHeader />
             <form
                 className={classes.root}
@@ -63,15 +77,34 @@ const EventForm = () => {
             >
                 <Grid container className={classes.mainGrid}>
                     <Grid item md={2}>
-                        <TextField id='standard-basic' label='Title' className={classes.tlddcText} />
+                        <TextField
+                            id='standard-basic'
+                            label='Title'
+                            className={classes.tlddcText}
+                            // value={draft.title}
+                            value={draft.title}
+                            onChange={(event) => setDraft({ ...draft, title: event.target.value })}
+                        />
                     </Grid>
 
                     <Grid item md={2}>
-                        <TextField id='standard-basic' label='Link' className={classes.tlddcText} />
+                        <TextField
+                            id='standard-basic'
+                            label='Link'
+                            className={classes.tlddcText}
+                            value={draft.link}
+                            onChange={(event) => setDraft({ ...draft, link: event.target.value })}
+                        />
                     </Grid>
 
                     <Grid item md={2}>
-                        <TextField id='standard-basic' label='Display Date' className={classes.tlddcText} />
+                        <TextField
+                            id='standard-basic'
+                            label='Display Date'
+                            className={classes.tlddcText}
+                            value={draft.displayDate}
+                            onChange={(event) => setDraft({ ...draft, displayDate: event.target.value })}
+                        />
                     </Grid>
 
                     <Grid item md={3}>
@@ -80,8 +113,8 @@ const EventForm = () => {
                             label='Comments'
                             multiline
                             rowsMax={4}
-                            // value={value}
-                            // onChange={handleChange}
+                            value={draft.comments}
+                            onChange={(event) => setDraft({ ...draft, comments: event.target.value })}
                             variant='standard'
                             className={classes.tlddcText}
                         />
@@ -98,6 +131,8 @@ const EventForm = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                value={draft.actualStart}
+                                onChange={(event) => setDraft({ ...draft, actualStart: event.target.value })}
                             />
                         </Grid>
 
@@ -111,6 +146,8 @@ const EventForm = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                value={draft.actualEnd}
+                                onChange={(event) => setDraft({ ...draft, actualEnd: event.target.value })}
                             />
                         </Grid>
                     </Grid>
@@ -119,17 +156,17 @@ const EventForm = () => {
                 <div>
                     <FormTabs />
                 </div>
-                                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={state.checkedPublicDraft}
-                                onChange={handleChange}
-                                name='checkedB'
-                                color='primary'
-                            />
-                        }
-                        label='Drafts of this entry can be viewed and edited by other project members'
-                    />
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={publicDraft.checkedPublicDraft}
+                            onChange={handlePublicChange}
+                            name='checkedB'
+                            color='primary'
+                        />
+                    }
+                    label='Drafts of this entry can be viewed and edited by other project members'
+                />
                 <Container className={classes.buttons}>
                     <Button variant='contained' color='secondary'>
                         Submit Entry
@@ -143,7 +180,6 @@ const EventForm = () => {
                     <Button variant='contained' color='secondary'>
                         Cancel
                     </Button>
-
                 </Container>
             </form>
         </>

@@ -9,7 +9,7 @@ import { AppBar, Tabs, Tab, Typography, Box } from '@material-ui/core';
 import TopicsCountries from './TopicsCountries';
 import EventFormEntities from './EventFormEntities';
 import TextEdit from './TextEdit';
-import SyntaxMarkdown from './SyntaxMarkdown'
+import SyntaxMarkdown from './SyntaxMarkdown';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
     },
+    appBar: {
+        backgroundColor: '#AFAFAF',
+    },
 }));
 
 export default function FormTabs() {
@@ -73,8 +76,8 @@ export default function FormTabs() {
 
     return (
         <div className={classes.root}>
-            <AppBar position='static' color='secondary'>
-                <Tabs variant='fullWidth' value={value} onChange={handleChange} aria-label='nav tabs example'>
+            <AppBar position='static' className={classes.appBar}>
+                <Tabs variant='fullWidth' value={value} onChange={handleChange} aria-label='nav tabs'>
                     <LinkTab label='Text' href='/TextEdit' {...a11yProps(0)} />
                     <LinkTab label='Entities' href='/EventFormEntities' {...a11yProps(1)} />
                     <LinkTab label='Topics and Countries' href='/TopicsDataGrid' {...a11yProps(2)} />
@@ -91,7 +94,7 @@ export default function FormTabs() {
                 <TopicsCountries />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <SyntaxMarkdown/>
+                <SyntaxMarkdown />
             </TabPanel>
         </div>
     );

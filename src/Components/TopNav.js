@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { AuthContext } from '../App';
 import clsx from 'clsx';
 
 import {
@@ -13,6 +15,7 @@ import {
     ListItemText,
     List,
     Button,
+    Link,
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -22,6 +25,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import CatDialogs from '../Nav/CatDialogs';
+import RightDrawer from '../Nav/RightDrawer';
+import Login from './Login';
 
 const drawerWidth = 240;
 
@@ -69,21 +74,6 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
-    rightDrawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    rightDrawerPaper: {
-        width: drawerWidth,
-    },
-    rightDrawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-        justifyContent: 'space-between',
-    },
     //
     menuButton: {
         marginRight: theme.spacing(2),
@@ -91,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
     hide: {
         display: 'none',
     },
+
     toolbar: {
         minHeight: 128,
         alignItems: 'flex-start',
@@ -103,16 +94,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ProminentAppBar() {
+export default function TopBar() {
+    const { state } = useContext(AuthContext);
     const classes = useStyles();
     const theme = useTheme();
     const [openLeft, setOpenLeft] = useState(false);
     const [openRight, setOpenRight] = useState(false);
-    const [categories, setCategories] = useState(['Projects', 'Topics', 'Regions']);
-    const [user, setUser] = useState({ username: 'BlKro' });
+    const categories = ['Projects', 'Topics', 'Regions'];
+
     const handleLeftDrawerOpen = () => {
         setOpenLeft(true);
-        console.log('handleDrawerOpen');
     };
 
     const handleLeftDrawerClose = () => {
@@ -120,15 +111,12 @@ export default function ProminentAppBar() {
     };
     const handleRightDrawerOpen = () => {
         setOpenRight(true);
-        console.log('handleDrawerOpen');
     };
 
     const handleRightDrawerClose = () => {
         setOpenRight(false);
     };
-    useEffect(() => {
-        console.log('CATS', categories.category);
-    });
+
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -149,13 +137,19 @@ export default function ProminentAppBar() {
                     >
                         <MenuIcon />
                     </IconButton>
+
                     <Typography className={classes.title} variant='h5' noWrap>
-                        History Commons
+                        <Link component={RouterLink} to='/' style={{ color: 'black' }}>
+                            History Commons
+                        </Link>
                     </Typography>
+
                     <IconButton aria-label='search' color='inherit'>
                         <SearchIcon />
                     </IconButton>
-                    <IconButton
+{  !state.isAuthenticated ? (
+                <Login />
+            ) : (                  <IconButton
                         aria-label='display more actions'
                         edge='end'
                         color='inherit'
@@ -163,7 +157,7 @@ export default function ProminentAppBar() {
                         className={clsx(classes.menuButton, openRight && classes.hide)}
                     >
                         <MoreIcon />
-                    </IconButton>
+                    </IconButton>)}
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -182,9 +176,11 @@ export default function ProminentAppBar() {
                 </div>
                 <Divider />
                 <List>
-                    {['About', 'TimeLines', 'Blog', 'Donate'].map((text, index) => (
+                    {['About', 'Timelines', 'Blog', 'Donate'].map((text, index) => (
                         <ListItem button key={text}>
-                            <ListItemText primary={text} />
+                            <Link component={RouterLink} to={`/${text.toLowerCase()}`} style={{ color: 'black' }}>
+                                <ListItemText primary={text} />
+                            </Link>
                         </ListItem>
                     ))}
                 </List>
@@ -196,30 +192,11 @@ export default function ProminentAppBar() {
                 </List>
             </Drawer>
             {/*Right Drawer*/}
-            <Drawer
-                className={classes.rightDrawer}
-                variant='persistent'
-                anchor='right'
-                open={openRight}
-                classes={{
-                    paper: classes.rightDrawerPaper,
-                }}
-            >
-                <div className={classes.rightDrawerHeader}>
-                    <Typography> Hi {user.username}! </Typography>
-                    <IconButton onClick={handleRightDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <Button>Guidelines</Button>
-                <Button>My Profile</Button>
-                <Button>My Entries</Button>
-                <Divider />
-                <Button variant='contained' color='secondary' style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    Logout
-                </Button>
-            </Drawer>
+            {!state.isAuthenticated ? (
+                <Login />
+            ) : (
+                <RightDrawer openRight={openRight} handleRightDrawerClose={handleRightDrawerClose} />
+            )}
         </div>
     );
 }
